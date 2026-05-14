@@ -277,10 +277,34 @@ def inject_css():
 # Model Loading
 # ──────────────────────────────────────────────────────────────────────────────
 
+MODEL_URL = (
+    "https://github.com/nvimik0/Skin_Cancer_Detection_Project"
+    "/raw/main/models/best_model.keras"
+)
+
+
+def _ensure_model_available():
+    """Download the model from GitHub if it's missing or is an LFS pointer."""
+    MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    # If file doesn't exist or is a tiny LFS pointer (<1 MB), download it
+    if MODEL_PATH.exists() and MODEL_PATH.stat().st_size > 1_000_000:
+        return  # Real model already present
+
+    import urllib.request
+    st.info("⬇️ Downloading model (≈50 MB) — this only happens once…")
+    try:
+        urllib.request.urlretrieve(MODEL_URL, str(MODEL_PATH))
+        st.success("✅ Model downloaded successfully!")
+    except Exception as e:
+        st.error(f"❌ Failed to download model: {e}")
+
+
 @st.cache_resource
 def load_model():
     """Load the trained Keras model (cached across sessions)."""
     import tensorflow as tf
+    _ensure_model_available()
     if not MODEL_PATH.exists():
         return None
     model = tf.keras.models.load_model(str(MODEL_PATH))
