@@ -1,0 +1,35 @@
+# ── Data (too large for GitHub) ──
+data/
+*.zip
+*.tar.gz
+
+# ── Python ──
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ── Virtual Environment ──
+venv/
+env/
+.env/
+.venv/
+
+# ── Jupyter ──
+.ipynb_checkpoints/
+
+# ── IDE ──
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── OS ──
+.DS_Store
+Thumbs.db
+
+# ── Misc ──
+*.log
